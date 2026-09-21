@@ -39,8 +39,10 @@ a {
 
 nav {
     padding-top: 2rem;
-    font-size: 1rem;
-    font-family: "Geostar Fill", serif;
+    font-size: 0.9rem;
+    font-family: "Stalinist One", sans-serif;
+    letter-spacing: 0.03em;
+    color: white;
 }
 
 ul {
@@ -70,6 +72,18 @@ p {
     text-align: center;
     font-family: "Open Sans", sans-serif;
     font-weight: 300;
+}
+
+#external-link {
+    font-family: "Stalinist One", sans-serif;
+    background-color: #0e2d0e;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
 
@@ -221,6 +235,7 @@ footer {
     left: 0;
     width: 100%;
     text-align: center;
+    font-size: small;
 }
 
 i {
@@ -228,4 +243,150 @@ i {
     color: rgb(241, 238, 238);
     cursor: pointer;
     gap: 10px;
+}
+
+/* ---- Coursework page (school.html) ---- */
+
+.school-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 3rem;
+    max-width: 1100px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+    min-height: 70vh;
+}
+
+.sidebar {
+    flex: 0 0 200px;
+    position: sticky;
+    top: 3rem;
+}
+
+.sidebar ul {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+}
+
+.side-link {
+    display: block;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    color: rgb(209, 196, 196);
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.side-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.side-link.active {
+    background: #a02727;
+    color: white;
+}
+
+.content {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-section {
+    display: none;
+}
+
+.task-section.active {
+    display: block;
+}
+
+.task-section h2 {
+    text-align: left;
+}
+
+.task-section p {
+    text-align: left;
+}
+
+.status-badge {
+    display: inline-block;
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+}
+
+.status-done {
+    background: #2b6e2b;
+    color: white;
+}
+
+.status-progress {
+    background: #a07a27;
+    color: white;
+}
+
+.status-todo {
+    background: #444;
+    color: rgb(209, 196, 196);
+}
+
+.reddit-post {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reddit-post h3 {
+    text-align: left;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+}
+
+.reddit-thumb {
+    max-width: 300px;
+}
+
+/* ---- Sticky mini music player (persists across pages) ---- */
+
+.mini-player {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(20, 20, 20, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    z-index: 10;
+    backdrop-filter: blur(6px);
+}
+
+.mini-player-title {
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.8rem;
+    color: rgb(209, 196, 196);
+    white-space: nowrap;
+}
+
+.mini-player-btn {
+    background: #a02727;
+    color: white;
+    border: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.mini-player-btn:hover {
+    background: #ea9898;
 }
