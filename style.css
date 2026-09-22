@@ -348,6 +348,7 @@ i {
     max-width: 300px;
 }
 
+
 /* ---- Sticky mini music player (persists across pages) ---- */
 
 .mini-player {
@@ -390,3 +391,37 @@ i {
 .mini-player-btn:hover {
     background: #ea9898;
 }
+
+.zoom {
+    cursor: zoom-in;
+    transition: opacity 0.2s ease;
+}
+ 
+.zoom:hover {
+    opacity: 0.85;
+}
+ 
+.lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    cursor: zoom-out;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+ 
+.lightbox.active {
+    display: flex;
+}
+ 
+.lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    border-radius: 8px;
+}
+ 

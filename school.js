@@ -20,8 +20,25 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-
+    // Respects a direct link like school.html#hw1 (e.g. from the "read more" link),
+    // otherwise defaults to the first section.
     const requestedId = window.location.hash.replace("#", "");
     const initialId = document.getElementById(requestedId) ? requestedId : "guest-speakers";
     showSection(initialId);
+
+    // Click-to-enlarge lightbox for any image with the "zoom" class
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+
+    document.querySelectorAll(".zoom").forEach(function (img) {
+        img.addEventListener("click", function () {
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightbox.classList.add("active");
+        });
+    });
+
+    lightbox.addEventListener("click", function () {
+        lightbox.classList.remove("active");
+    });
 });
