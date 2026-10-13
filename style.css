@@ -46,11 +46,11 @@ nav {
 }
 
 ul {
-    list-style-type: none; 
-    padding: 0;   
-    margin: 0;     
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
     display: flex;
-    gap: 3rem;      
+    gap: 3rem;
 }
 
 #tool-link {
@@ -124,10 +124,10 @@ p {
 
 .blog-section img {
     grid-area: photo;
-    max-width: 440px; 
+    max-width: 440px;
     width: 100%;
     height: auto;
-    border-radius: 8px; 
+    border-radius: 8px;
 }
 
 article {
@@ -180,10 +180,10 @@ article {
 
 .about-section .profile-photo {
     grid-area: photo;
-    max-width: 250px; 
+    max-width: 250px;
     width: 100%;
     height: auto;
-    border-radius: 8px; 
+    border-radius: 8px;
 }
 
 .about-section h1 {
@@ -212,10 +212,10 @@ article {
 
 .reddit .tool-logo {
     grid-area: photo;
-    max-width: 250px; 
+    max-width: 250px;
     width: 100%;
     height: auto;
-    border-radius: 8px; 
+    border-radius: 8px;
 }
 
 .reddit h2 {
@@ -396,11 +396,11 @@ i {
     cursor: zoom-in;
     transition: opacity 0.2s ease;
 }
- 
+
 .zoom:hover {
     opacity: 0.85;
 }
- 
+
 .lightbox {
     display: none;
     position: fixed;
@@ -413,11 +413,11 @@ i {
     padding: 2rem;
     box-sizing: border-box;
 }
- 
+
 .lightbox.active {
     display: flex;
 }
- 
+
 .lightbox img {
     max-width: 90vw;
     max-height: 90vh;
@@ -428,4 +428,8 @@ i {
 .narratives-one {
     background-image: url('pictures/matrix-code.gif');
 }
- 
+
+#fire-toggle.off {
+    opacity: 0.35;
+    background: #444;
+}

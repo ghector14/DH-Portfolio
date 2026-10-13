@@ -85,7 +85,7 @@ class Emitter {
 		this.lastY = this.y = y;
 		this.vx = 0;
 		this.vy = 0;
-		
+
 		data = data || {};
 		for(const [key, defaultdata] of Object.entries(this.defaultdata)) {
 			this[key] = data[key] == undefined ? defaultdata:data[key];
@@ -103,23 +103,23 @@ class Emitter {
 	defaultdata = {
 		count: 40,
 		rate: 0.5,
- 
+
 		vmin: 2,
 		vmax: 4,
- 
+
 		sizemax: 10,
 		sizemin: 1,
- 
+
 		lifemin: 50,
 		lifemax: 200,
-		
+
 		resistance: 0.1,
 		gravity: 1,
-		
+
 		inherit: 0.2,
 		relative: false,
 		independent: false,
-		type: "circle", 
+		type: "circle",
 		color: "rgb(0, 0, 0)"
 	}
 	particles = [];
@@ -169,7 +169,7 @@ class Particle {
 		this.vx = Math.cos(theta)*m;
 		this.vy = Math.sin(theta)*m;
 		this.start = this.lifetime = lifetime;
-		
+
 		this.vy += vy;
 		this.vx += vx;
 	}
@@ -200,13 +200,13 @@ class Particle {
 		this.vx *= 1-emitter.resistance;
 		this.vy *= 1-emitter.resistance;
 		this.lifetime--;
-		
+
 		return this.lifetime <= 0;
 	}
 }
- 
+
 "use strict";
- 
+
 function createShader(gl, type, source) {
   const shader = gl.createShader(type);
   gl.shaderSource(shader, source);
@@ -215,7 +215,7 @@ function createShader(gl, type, source) {
   if (success) {
     return shader;
   }
- 
+
   console.log(gl.getShaderInfoLog(shader));
   gl.deleteShader(shader);
 }
@@ -228,15 +228,15 @@ function createProgram(gl, vertexShader, fragmentShader) {
   if (success) {
     return program;
   }
- 
+
   console.log(gl.getProgramInfoLog(program));
   gl.deleteProgram(program);
 }
- 
+
 const canvas = document.querySelector("canvas");
 const gl = canvas.getContext("webgl");
 const dpi = window.devicePixelRatio;
- 
+
 const detail = 5;
 function initCircle() {
   //init circle
@@ -251,7 +251,7 @@ function initCircle() {
     const back = ((i+detail-1)%detail)*2;
     vertices.push(outer[index], outer[index+1], 0, 0, outer[back], outer[back+1]);
   }
-  
+
   //init buffer
   const positionBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -260,7 +260,7 @@ function initCircle() {
   return positionBuffer;
 }
 const circleBuffer = initCircle();
- 
+
 function initSquare() {
   //init buffer
   const positionBuffer = gl.createBuffer();
@@ -277,47 +277,47 @@ function initSquare() {
   return positionBuffer;
 }
 const squareBuffer = initSquare();
- 
+
 //init program
 const vertexShaderSource = `
 attribute vec3 a_position;
 uniform mat3 u_matrix;
- 
+
 void main() {
 	gl_Position = vec4(u_matrix*vec3(a_position.xy, 1.0), 1.0);
 }
 `;
 const fragmentShaderSource = `
 precision highp float;
- 
+
 uniform vec4 u_color;
- 
+
 void main() {
   gl_FragColor = u_color;
 }
 `;
- 
+
 const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
 const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
- 
+
 const program = createProgram(gl, vertexShader, fragmentShader);
- 
+
 const matrixUniformLocation = gl.getUniformLocation(program, "u_matrix");
 const colorUniformLocation = gl.getUniformLocation(program, "u_color");
 const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
- 
+
 function color(color) {
   gl.uniform4fv(colorUniformLocation, new Float32Array(color));
 }
 function circle(x, y, r, rot = 0) {
-  
+
   let matrix = m3.projection(canvas.width, canvas.height);
   matrix = m3.translate(matrix, x, y);
   matrix = m3.scale(matrix, r, r);
   matrix = m3.rotate(matrix, rot);
-  
-  gl.uniformMatrix3fv(matrixUniformLocation, false, matrix) 
-  
+
+  gl.uniformMatrix3fv(matrixUniformLocation, false, matrix)
+
   {
     const size = 2;
     const type = gl.FLOAT;
@@ -337,9 +337,9 @@ function square(x, y, s) {
   let matrix = m3.projection(canvas.width, canvas.height);
   matrix = m3.translate(matrix, x, y);
   matrix = m3.scale(matrix, s, s);
-  
-  gl.uniformMatrix3fv(matrixUniformLocation, false, matrix) 
-  
+
+  gl.uniformMatrix3fv(matrixUniformLocation, false, matrix)
+
   {
     const size = 2;
     const type = gl.FLOAT;
@@ -355,7 +355,7 @@ function square(x, y, s) {
     gl.drawArrays(primitiveType, offset, count);
   }
 }
- 
+
 //other initiation
 const red = new Emitter(innerWidth/2*dpi, innerHeight/2*dpi , {
 	gravity: -0.2,
@@ -404,38 +404,70 @@ const yellow = new Emitter(innerWidth/2*dpi, innerHeight/2*dpi , {
   type: "circle"
 });
 const layers = [shadow, smoke, red, yellow];
- 
+
 addEventListener("mousemove", function(e) {
 	for(const em of layers) {
 		em.x = e.clientX*dpi;
 		em.y = e.clientY*dpi;
 	}
 });
- 
+
 function animate(time) {
-  
+  if (!fireEnabled) {
+    requestAnimationFrame(animate);
+    return;
+  }
+
+
 	//fix canvas
 	canvas.width = canvas.clientWidth*dpi;
 	canvas.height = canvas.clientHeight*dpi;
-	
+
 	gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   gl.clearColor(0, 0, 0, 1);
   gl.clear(gl.COLOR_BUFFER_BIT);
-  
+
   gl.useProgram(program);
-  
+
   gl.enableVertexAttribArray(positionAttributeLocation);
-  
+
   gl.bindBuffer(gl.ARRAY_BUFFER, circleBuffer);
-  
+
   for(const em of layers) {
 		em.animate();
 		em.update();
 	}
-  
+
   requestAnimationFrame(animate);
 }
- 
+
 //start render loop
 requestAnimationFrame(animate);
- 
+
+
+// ---- Fire cursor on/off toggle (remembered across pages) ----
+let fireEnabled = localStorage.getItem("fireEnabled") !== "false";
+const fireBtn = document.getElementById("fire-toggle");
+
+function setFire(on) {
+  fireEnabled = on;
+  localStorage.setItem("fireEnabled", on);
+  if (fireBtn) {
+    fireBtn.classList.toggle("off", !on);
+    fireBtn.setAttribute("aria-label", on ? "Turn off fire cursor" : "Turn on fire cursor");
+  }
+  for (const em of layers) {
+    em.particles = [];
+    em.lastX = em.x;   // avoids a streak when turning it back on
+    em.lastY = em.y;
+  }
+  if (!on) {
+    gl.clearColor(0, 0, 0, 1);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+  }
+}
+
+if (fireBtn) {
+  fireBtn.addEventListener("click", function () { setFire(!fireEnabled); });
+}
+setFire(fireEnabled);
